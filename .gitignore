@@ -131,3 +131,5 @@ dmypy.json
 *.xlx
 *.xls
 *.zip
+
+*.pbix
