@@ -2,17 +2,8 @@ import pandas as pd
 import boto3
 import io
 import datetime
-import os
-import base64
 
-
-
-
-s3 = boto3.client('s3')
-
-ec2 = boto3.resource('ec2')
-
-
+s3 = boto3.client('s3', region_name='eu-central-1')
 
 def create_sample_data(s3_uri:str):
     bucket = s3_uri.split('/')[2]
@@ -37,5 +28,5 @@ def upload_sample_data(df, bucket:str):
     content_type = "text/csv"
     s3.put_object(Bucket=bucket, Key=object_key, Body=csv_string, ContentType=content_type)
     
-df = create_sample_data('s3://fraud-data-manuel/Fraud.csv')
-upload_sample_data(df, 'fraud-data-manuel')
+df = create_sample_data('s3://fraud-manuel/Fraud.csv')
+upload_sample_data(df, 'fraud-manuel')
