@@ -18,7 +18,7 @@ def create_sample_data(s3_uri:str):
 def upload_sample_data(df, bucket:str):
     
     df = df.sample(n=200, replace=True)
-    df.drop(columns='isFraud', inplace=True)
+    df.drop(columns='isfraud', inplace=True)
 
     today = datetime.datetime.today()
     date_str = today.strftime('%Y-%m-%d')
