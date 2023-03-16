@@ -28,5 +28,5 @@ def upload_sample_data(df, bucket:str):
     content_type = "text/csv"
     s3.put_object(Bucket=bucket, Key=object_key, Body=csv_string, ContentType=content_type)
     
-df = create_sample_data('s3://fraud-manuel/Fraud.csv')
-upload_sample_data(df, 'fraud-manuel')
+df = create_sample_data('s3://source-bucket-fraud-manuel/Fraud.csv')
+upload_sample_data(df, 'daily-bucket-fraud-manuel')
