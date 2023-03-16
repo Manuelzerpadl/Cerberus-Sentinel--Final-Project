@@ -4,6 +4,7 @@ import pickle
 import datetime
 import io
 from io import BytesIO
+import xgboost
 
 def read_pickle_model(bucket:str, key:str):
     # Set up S3 client
