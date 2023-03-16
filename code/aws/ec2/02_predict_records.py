@@ -6,8 +6,9 @@ import io
 from io import BytesIO
 import xgboost
 
+s3 = boto3.client('s3', region_name= 'eu-central-1')
+
 def read_pickle_model(bucket:str, key:str):
-    # Set up S3 client
     # Load the file object from S3 bucket
     file_obj = s3.get_object(Bucket=bucket, Key=key)['Body'].read()
 
