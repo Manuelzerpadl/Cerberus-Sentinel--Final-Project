@@ -8,7 +8,6 @@ import xgboost
 
 def read_pickle_model(bucket:str, key:str):
     # Set up S3 client
-    s3 = boto3.client('s3', region_name = 'eu-central-1')
     # Load the file object from S3 bucket
     file_obj = s3.get_object(Bucket=bucket, Key=key)['Body'].read()
 
@@ -17,7 +16,6 @@ def read_pickle_model(bucket:str, key:str):
     return data
 
 def read_csv_from_bucket(bucket:str, key:str):
-    s3 = boto3.client('s3', region_name = 'eu-central-1')
     response = s3.get_object(Bucket=bucket, Key=key)
     contents = response['Body'].read().decode('utf-8')
     df = pd.read_csv(io.StringIO(contents))
@@ -29,8 +27,9 @@ def evaluate_records(df:object, model:object):
     df['isfraud'] = y_pred
     return df
 
-def upload_to_bucket(dataframe, bucket, key):
+def upload_to_bucket(dataframe, bucket, key, date):
     # Convert dataframe to CSV format
+    dataframe['date'] = date
     csv_buffer = io.StringIO()
     dataframe.to_csv(csv_buffer, index=False)
     
@@ -58,6 +57,6 @@ def main():
     predicted_csv_key = f'transaction_{date_str}_fraud.csv'
     
     df = evaluate_records(read_csv_from_bucket(daily_bucket, daily_key), read_pickle_model(model_bucket, model_file_key))
-    upload_to_bucket(df, predicted_bucket, predicted_csv_key)
+    upload_to_bucket(df, predicted_bucket, predicted_csv_key, date_str)
 
 main()
